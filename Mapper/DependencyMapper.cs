@@ -2,15 +2,19 @@
 using Domain.Entities;
 using Domain.Entities.Auth;
 using Domain.Entities.Fiancial;
+using Domain.Entities.Product;
 using Domain.Interface.Repository;
 using Domain.Interface.Repository.Auth;
 using Domain.Interface.Repository.Common;
 using Domain.Interface.Repository.Financial;
+using Domain.Interface.Repository.Product;
 using Domain.Interface.Service;
+using Domain.Interface.Service.Product;
 using Domain.Model.Auth;
 using Domain.Model.Common;
 using Domain.Model.Contact;
 using Domain.Model.Financial;
+using Domain.Model.Product;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
@@ -18,9 +22,11 @@ using Repository;
 using Repository.Auth;
 using Repository.Common;
 using Repository.Financial;
+using Repository.Product;
 using Service;
 using Service.Auth;
 using Service.Financial;
+using Service.Product;
 
 namespace Mapper
 {
@@ -34,6 +40,7 @@ namespace Mapper
             services.AddScoped<IUserProfileRepository, UserProfileRepository>();
             services.AddScoped<IFinancialReleaseRepository, FinancialReleaseRepository>();
             services.AddScoped<IFinancialReleaseTypeRepository, FinancialReleaseTypeRepository>();
+            services.AddScoped<IProductCategoryRepository, ProductCategoryRepository>();
 
             services.AddScoped<IAuthRepository>(provider =>
             {
@@ -54,6 +61,7 @@ namespace Mapper
             services.AddTransient<IUnityOfWork, UnityOfWork>();
             services.AddTransient<IFinancialReleaseService, FinancialReleaseService>();
             services.AddTransient<IFinancialReleaseTypeService, FinancialReleaseTypeService>();
+            services.AddTransient<IProductCategoryService, ProductCategoryService>();
 
             #endregion
         }
@@ -89,6 +97,12 @@ namespace Mapper
                 cfg.CreateMap<FinancialReleaseTypeResponse, OptionItemResponse>()
                 .ForMember(x => x.Label, opt => opt.MapFrom(o => o.Name))
                 .ForMember(x => x.Value, opt => opt.MapFrom(o => o.Uuid));
+
+                cfg.CreateMap<ProductCategory, ProductCategoryResponse>();
+                cfg.CreateMap<ProductCategoryResponse, OptionItemResponse>()
+                .ForMember(x => x.Label, opt => opt.MapFrom(o => o.Name))
+                .ForMember(x => x.Value, opt => opt.MapFrom(o => o.Uuid));
+                cfg.CreateMap<ProductCategoryRequest, ProductCategory>();
             });
 
             IMapper mapper = mapperConfig.CreateMapper();

@@ -2,6 +2,7 @@
 using Domain.Entities;
 using Domain.Entities.Auth;
 using Domain.Entities.Fiancial;
+using Domain.Entities.Product;
 using Microsoft.EntityFrameworkCore;
 
 namespace Database
@@ -23,6 +24,8 @@ namespace Database
 
         public DbSet<FinancialRelease> FinancialReleases { get; set; }
         public DbSet<FinancialReleaseType> FinancialReleaseTypes { get; set; }
+
+        public DbSet<ProductCategory> ProductCategories { get; set; }
         #endregion
 
 
