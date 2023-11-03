@@ -6,9 +6,9 @@ namespace Domain.Interface.Repository.Product
     {
         Task<IEnumerable<ProductCategory>> Get();
         Task<ProductCategory> Get(Guid uuid);
-        Task<ProductCategory> Create(ProductCategory user);
+        Task<ProductCategory> Create(ProductCategory productCategory);
 
-        Task<ProductCategory> Update(ProductCategory user);
+        Task<ProductCategory> Update(ProductCategory productCategory);
 
         Task Delete(Guid uuid);
     }

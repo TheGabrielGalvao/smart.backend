@@ -3,6 +3,7 @@ using Domain.Entities;
 using Domain.Entities.Auth;
 using Domain.Entities.Fiancial;
 using Domain.Entities.Product;
+using Domain.Entities.Stock;
 using Domain.Interface.Repository;
 using Domain.Interface.Repository.Auth;
 using Domain.Interface.Repository.Common;
@@ -15,6 +16,7 @@ using Domain.Model.Common;
 using Domain.Model.Contact;
 using Domain.Model.Financial;
 using Domain.Model.Product;
+using Domain.Model.Stock;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
@@ -41,6 +43,8 @@ namespace Mapper
             services.AddScoped<IFinancialReleaseRepository, FinancialReleaseRepository>();
             services.AddScoped<IFinancialReleaseTypeRepository, FinancialReleaseTypeRepository>();
             services.AddScoped<IProductCategoryRepository, ProductCategoryRepository>();
+            services.AddScoped<IProductRepository, ProductRepository>();
+
 
             services.AddScoped<IAuthRepository>(provider =>
             {
@@ -62,6 +66,7 @@ namespace Mapper
             services.AddTransient<IFinancialReleaseService, FinancialReleaseService>();
             services.AddTransient<IFinancialReleaseTypeService, FinancialReleaseTypeService>();
             services.AddTransient<IProductCategoryService, ProductCategoryService>();
+            services.AddTransient<IProductService, ProductService>();
 
             #endregion
         }
@@ -103,6 +108,16 @@ namespace Mapper
                 .ForMember(x => x.Label, opt => opt.MapFrom(o => o.Name))
                 .ForMember(x => x.Value, opt => opt.MapFrom(o => o.Uuid));
                 cfg.CreateMap<ProductCategoryRequest, ProductCategory>();
+
+                cfg.CreateMap<ProductEntity, ProductResponse>()
+                .ForMember(x => x.ProductCategoryUuid, opt => opt.MapFrom(o => o.ProductCategory.Uuid));
+                cfg.CreateMap<ProductResponse, OptionItemResponse>()
+                .ForMember(x => x.Label, opt => opt.MapFrom(o => o.Name))
+                .ForMember(x => x.Value, opt => opt.MapFrom(o => o.Uuid));
+                cfg.CreateMap<ProductRequest, ProductEntity>();
+
+                cfg.CreateMap<InventoryAdjustmentEntity, InventoryAdjustmentResponse>();
+                cfg.CreateMap<InventoryAdjustmentRequest, InventoryAdjustmentEntity>();
             });
 
             IMapper mapper = mapperConfig.CreateMapper();

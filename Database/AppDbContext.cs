@@ -3,6 +3,7 @@ using Domain.Entities;
 using Domain.Entities.Auth;
 using Domain.Entities.Fiancial;
 using Domain.Entities.Product;
+using Domain.Entities.Stock;
 using Microsoft.EntityFrameworkCore;
 
 namespace Database
@@ -26,6 +27,14 @@ namespace Database
         public DbSet<FinancialReleaseType> FinancialReleaseTypes { get; set; }
 
         public DbSet<ProductCategory> ProductCategories { get; set; }
+        public DbSet<ProductEntity> Products { get; set; }
+
+        
+        public DbSet<InventoryAdjustmentEntity> InventoryAdjustments { get; set; }
+        public DbSet<StockBalanceEntity> StockBalances { get; set; }
+        public DbSet<StockLocationEntity> StockLocations { get; set; }
+        public DbSet<StockReleaseEntity> StockReleases { get; set; }
+        
         #endregion
 
 
@@ -86,6 +95,7 @@ namespace Database
 
             AuthSeedData.Seed(modelBuilder);
             FinancialFinancialReleaseTypeSeedData.Seed(modelBuilder);
+            StockLocationSeedData.Seed(modelBuilder);
         }
     }
 }

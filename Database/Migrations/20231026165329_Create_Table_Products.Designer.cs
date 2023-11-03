@@ -4,6 +4,7 @@ using Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Database.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231026165329_Create_Table_Products")]
+    partial class Create_Table_Products
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -158,7 +160,7 @@ namespace Database.Migrations
                             Password = "1234",
                             ProfileId = 1L,
                             Status = 1,
-                            Uuid = new Guid("5a0f1306-94e8-4a98-9916-2ed716aa13ae")
+                            Uuid = new Guid("f23f7976-2e49-4100-8b36-5215566fcdd2")
                         });
                 });
 
@@ -232,7 +234,7 @@ namespace Database.Migrations
                             Description = "Perfil de Administrador",
                             Name = "Admnistrador",
                             Status = 1,
-                            Uuid = new Guid("dcd4a93f-0ec1-452e-8a22-09d37f6e464d")
+                            Uuid = new Guid("a4189548-2a3b-4f63-9746-bf163ebe737a")
                         });
                 });
 
@@ -463,174 +465,6 @@ namespace Database.Migrations
                     b.ToTable("Products", "product");
                 });
 
-            modelBuilder.Entity("Domain.Entities.Stock.InventoryAdjustmentEntity", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
-
-                    b.Property<decimal>("Amount")
-                        .HasColumnType("decimal(19,9)");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Description")
-                        .HasColumnType("varchar(25)");
-
-                    b.Property<int>("Flow")
-                        .HasColumnType("int");
-
-                    b.Property<long>("ProductId")
-                        .HasColumnType("bigint");
-
-                    b.Property<int>("Status")
-                        .HasColumnType("int");
-
-                    b.Property<long>("StockLocationId")
-                        .HasColumnType("bigint");
-
-                    b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<Guid>("Uuid")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ProductId");
-
-                    b.HasIndex("StockLocationId");
-
-                    b.ToTable("InventoryAdjustment", "stock");
-                });
-
-            modelBuilder.Entity("Domain.Entities.Stock.StockBalanceEntity", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
-
-                    b.Property<decimal?>("Balance")
-                        .HasColumnType("decimal(19,9)");
-
-                    b.Property<DateTime>("LastUpdated")
-                        .HasColumnType("datetime2");
-
-                    b.Property<long>("ProductId")
-                        .HasColumnType("bigint");
-
-                    b.Property<long>("StockLocationId")
-                        .HasColumnType("bigint");
-
-                    b.Property<Guid>("Uuid")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ProductId");
-
-                    b.HasIndex("StockLocationId");
-
-                    b.ToTable("StockBalance", "stock");
-                });
-
-            modelBuilder.Entity("Domain.Entities.Stock.StockLocationEntity", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
-
-                    b.Property<string>("Description")
-                        .HasColumnType("varchar(255)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("varchar(45)");
-
-                    b.Property<int>("Status")
-                        .HasColumnType("int");
-
-                    b.Property<Guid>("Uuid")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("StockLocation", "stock");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1L,
-                            Description = "Local de Estoque Padrão",
-                            Name = "Padrão",
-                            Status = 1,
-                            Uuid = new Guid("595980be-1635-4ca1-987d-eddbd1fb15d8")
-                        });
-                });
-
-            modelBuilder.Entity("Domain.Entities.Stock.StockReleaseEntity", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("Flow")
-                        .HasColumnType("int");
-
-                    b.Property<decimal>("PreviousQuantity")
-                        .HasColumnType("decimal(19,9)");
-
-                    b.Property<long>("ProductId")
-                        .HasColumnType("bigint");
-
-                    b.Property<decimal>("QuantityReleased")
-                        .HasColumnType("decimal(19,9)");
-
-                    b.Property<int>("Status")
-                        .HasColumnType("int");
-
-                    b.Property<long>("StockLocationId")
-                        .HasColumnType("bigint");
-
-                    b.Property<int>("StockReleaseTypeId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasColumnType("varchar(45)");
-
-                    b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<long>("UserId")
-                        .HasColumnType("bigint");
-
-                    b.Property<Guid>("Uuid")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ProductId");
-
-                    b.HasIndex("StockLocationId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("StockRelease", "stock");
-                });
-
             modelBuilder.Entity("ProfilePermissions", b =>
                 {
                     b.Property<long>("PermissionId")
@@ -735,71 +569,6 @@ namespace Database.Migrations
                     b.Navigation("ProductCategory");
                 });
 
-            modelBuilder.Entity("Domain.Entities.Stock.InventoryAdjustmentEntity", b =>
-                {
-                    b.HasOne("Domain.Entities.Product.ProductEntity", "Product")
-                        .WithMany()
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Domain.Entities.Stock.StockLocationEntity", "StockLocation")
-                        .WithMany()
-                        .HasForeignKey("StockLocationId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Product");
-
-                    b.Navigation("StockLocation");
-                });
-
-            modelBuilder.Entity("Domain.Entities.Stock.StockBalanceEntity", b =>
-                {
-                    b.HasOne("Domain.Entities.Product.ProductEntity", "Product")
-                        .WithMany()
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Domain.Entities.Stock.StockLocationEntity", "StockLocation")
-                        .WithMany("StockBalances")
-                        .HasForeignKey("StockLocationId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Product");
-
-                    b.Navigation("StockLocation");
-                });
-
-            modelBuilder.Entity("Domain.Entities.Stock.StockReleaseEntity", b =>
-                {
-                    b.HasOne("Domain.Entities.Product.ProductEntity", "Product")
-                        .WithMany()
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Domain.Entities.Stock.StockLocationEntity", "StockLocation")
-                        .WithMany("StockReleases")
-                        .HasForeignKey("StockLocationId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Domain.Entities.Auth.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Product");
-
-                    b.Navigation("StockLocation");
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("ProfilePermissions", b =>
                 {
                     b.HasOne("Domain.Entities.Auth.Permission", null)
@@ -833,13 +602,6 @@ namespace Database.Migrations
             modelBuilder.Entity("Domain.Entities.Fiancial.FinancialReleaseType", b =>
                 {
                     b.Navigation("FinancialReleases");
-                });
-
-            modelBuilder.Entity("Domain.Entities.Stock.StockLocationEntity", b =>
-                {
-                    b.Navigation("StockBalances");
-
-                    b.Navigation("StockReleases");
                 });
 #pragma warning restore 612, 618
         }
