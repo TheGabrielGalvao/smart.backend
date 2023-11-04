@@ -11,8 +11,8 @@ namespace Service.Auth
     {
         public readonly IUserProfileRepository _repository;
         private readonly IMapper _mapper;
-        private readonly IUnityOfWork _uow;
-        public UserProfileService(IUserProfileRepository repository, IMapper mapper, IUnityOfWork uow)
+        private readonly IUnitOfWork _uow;
+        public UserProfileService(IUserProfileRepository repository, IMapper mapper, IUnitOfWork uow)
         {
             _repository = repository;
             _mapper = mapper;

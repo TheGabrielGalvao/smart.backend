@@ -1,6 +1,5 @@
-﻿using Domain.Entities.Product;
-using Domain.Entities.Stock;
-using Domain.Enum;
+﻿using Domain.Enum;
+using Domain.Model.Product;
 
 namespace Domain.Model.Stock
 {
@@ -20,8 +19,8 @@ namespace Domain.Model.Stock
 
         public EStockReleaseStatus Status { get; set; }
         
-        public ProductEntity Product { get; set; }
+        public ProductResponse Product { get; set; }
 
-        public StockLocationEntity StockLocation { get; set; }
+        public StockLocationResponse StockLocation { get; set; }
     }
 }

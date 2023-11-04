@@ -3,7 +3,7 @@ using Domain.Interface.Repository.Common;
 
 namespace Repository.Common
 {
-    public class UnityOfWork : IUnityOfWork
+    public class UnityOfWork : IUnitOfWork
     {
         private readonly AppDbContext _context;
 

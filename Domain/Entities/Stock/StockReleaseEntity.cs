@@ -17,6 +17,11 @@ namespace Domain.Entities.Stock
         [Column(TypeName = "decimal(19,9)")]
         public decimal QuantityReleased { get; set; }
 
+        [Column(TypeName = "decimal(19,9)")]
+        public decimal AdjustedQuantity { get; set; }
+
+        public int? StockReleaseId { get; set; }
+
         public  EReleaseFlow Flow { get; set; }
 
         public EStockReleaseStatus Status { get; set; }

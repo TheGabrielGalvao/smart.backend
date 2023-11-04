@@ -11,8 +11,8 @@ namespace Service
     {
         public readonly IContactRepository _repository ;
         private readonly IMapper _mapper;
-        private readonly IUnityOfWork _uow ;
-        public ContactService(IContactRepository repository, IMapper mapper, IUnityOfWork uow)
+        private readonly IUnitOfWork _uow ;
+        public ContactService(IContactRepository repository, IMapper mapper, IUnitOfWork uow)
         {
             _repository = repository;
             _mapper = mapper;

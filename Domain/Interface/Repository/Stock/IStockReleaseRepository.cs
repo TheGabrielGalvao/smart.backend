@@ -1,13 +1,10 @@
 ﻿using Domain.Entities.Stock;
+using Domain.Interface.Repository.Common;
 
 namespace Domain.Interface.Repository.Stock
 {
-    internal interface IStockReleaseRepository
+    public interface IStockReleaseRepository : IBaseRepository<StockReleaseEntity>
     {
-        Task<IEnumerable<StockReleaseEntity>> Get();
-        Task<StockReleaseEntity> Get(Guid uuid);
-        Task<StockReleaseEntity> Create(StockReleaseEntity data);
-        Task<StockReleaseEntity> Update(StockReleaseEntity data);
-        Task Delete(Guid uuid);
+        
     }
 }

@@ -11,8 +11,8 @@ namespace Service.Financial
     {
         public readonly IFinancialReleaseTypeRepository _repository;
         private readonly IMapper _mapper;
-        private readonly IUnityOfWork _uow;
-        public FinancialReleaseTypeService(IFinancialReleaseTypeRepository repository, IMapper mapper, IUnityOfWork uow)
+        private readonly IUnitOfWork _uow;
+        public FinancialReleaseTypeService(IFinancialReleaseTypeRepository repository, IMapper mapper, IUnitOfWork uow)
         {
             _repository = repository;
             _mapper = mapper;

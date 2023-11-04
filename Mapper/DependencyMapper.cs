@@ -9,8 +9,10 @@ using Domain.Interface.Repository.Auth;
 using Domain.Interface.Repository.Common;
 using Domain.Interface.Repository.Financial;
 using Domain.Interface.Repository.Product;
+using Domain.Interface.Repository.Stock;
 using Domain.Interface.Service;
 using Domain.Interface.Service.Product;
+using Domain.Interface.Service.Stock;
 using Domain.Model.Auth;
 using Domain.Model.Common;
 using Domain.Model.Contact;
@@ -25,10 +27,12 @@ using Repository.Auth;
 using Repository.Common;
 using Repository.Financial;
 using Repository.Product;
+using Repository.Stock;
 using Service;
 using Service.Auth;
 using Service.Financial;
 using Service.Product;
+using Service.Stock;
 
 namespace Mapper
 {
@@ -44,6 +48,10 @@ namespace Mapper
             services.AddScoped<IFinancialReleaseTypeRepository, FinancialReleaseTypeRepository>();
             services.AddScoped<IProductCategoryRepository, ProductCategoryRepository>();
             services.AddScoped<IProductRepository, ProductRepository>();
+
+            services.AddScoped<IInventoryAdjustmentRepository, InventoryAdjustmentRepository>();
+
+            services.AddScoped<IStockLocationRepository, StockLocationRepository>();
 
 
             services.AddScoped<IAuthRepository>(provider =>
@@ -62,11 +70,12 @@ namespace Mapper
             services.AddTransient<IUserProfileService, UserProfileService>();
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<IAuthService, AuthService>();
-            services.AddTransient<IUnityOfWork, UnityOfWork>();
+            services.AddTransient<IUnitOfWork, UnityOfWork>();
             services.AddTransient<IFinancialReleaseService, FinancialReleaseService>();
             services.AddTransient<IFinancialReleaseTypeService, FinancialReleaseTypeService>();
             services.AddTransient<IProductCategoryService, ProductCategoryService>();
             services.AddTransient<IProductService, ProductService>();
+            services.AddTransient<IInventoryAdjustmentService, InventoryAdjustmentService>();
 
             #endregion
         }
@@ -115,6 +124,8 @@ namespace Mapper
                 .ForMember(x => x.Label, opt => opt.MapFrom(o => o.Name))
                 .ForMember(x => x.Value, opt => opt.MapFrom(o => o.Uuid));
                 cfg.CreateMap<ProductRequest, ProductEntity>();
+
+                cfg.CreateMap<StockLocationEntity, StockLocationResponse>();
 
                 cfg.CreateMap<InventoryAdjustmentEntity, InventoryAdjustmentResponse>();
                 cfg.CreateMap<InventoryAdjustmentRequest, InventoryAdjustmentEntity>();

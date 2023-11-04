@@ -11,8 +11,8 @@ namespace Service.Product
     {
         public readonly IProductCategoryRepository _repository;
         private readonly IMapper _mapper;
-        private readonly IUnityOfWork _uow;
-        public ProductCategoryService(IProductCategoryRepository repository, IMapper mapper, IUnityOfWork uow)
+        private readonly IUnitOfWork _uow;
+        public ProductCategoryService(IProductCategoryRepository repository, IMapper mapper, IUnitOfWork uow)
         {
             _repository = repository;
             _mapper = mapper;
