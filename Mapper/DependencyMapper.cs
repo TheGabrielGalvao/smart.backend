@@ -52,6 +52,8 @@ namespace Mapper
             services.AddScoped<IInventoryAdjustmentRepository, InventoryAdjustmentRepository>();
 
             services.AddScoped<IStockLocationRepository, StockLocationRepository>();
+            services.AddScoped<IStockReleaseRepository, StockReleaseRepository>();
+            services.AddScoped<IStockBalanceRepository, StockBalanceRepository>();
 
 
             services.AddScoped<IAuthRepository>(provider =>
@@ -76,6 +78,7 @@ namespace Mapper
             services.AddTransient<IProductCategoryService, ProductCategoryService>();
             services.AddTransient<IProductService, ProductService>();
             services.AddTransient<IInventoryAdjustmentService, InventoryAdjustmentService>();
+            services.AddTransient<IStockReleaseService, StockReleaseService>();
 
             #endregion
         }
@@ -126,6 +129,9 @@ namespace Mapper
                 cfg.CreateMap<ProductRequest, ProductEntity>();
 
                 cfg.CreateMap<StockLocationEntity, StockLocationResponse>();
+
+                cfg.CreateMap<StockReleaseEntity, StockReleaseResponse>();
+                cfg.CreateMap<StockReleaseEntity, StockReleaseResponse>();
 
                 cfg.CreateMap<InventoryAdjustmentEntity, InventoryAdjustmentResponse>();
                 cfg.CreateMap<InventoryAdjustmentRequest, InventoryAdjustmentEntity>();

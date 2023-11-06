@@ -5,5 +5,6 @@ namespace Domain.Interface.Repository.Stock
 {
     public interface IStockBalanceRepository : IBaseRepository<StockBalanceEntity>
     {
+        Task<StockBalanceEntity> GetBalanceByProductInfo(int productId, int locationId);
     }
 }

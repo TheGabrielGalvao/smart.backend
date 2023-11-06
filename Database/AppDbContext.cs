@@ -92,6 +92,12 @@ namespace Database
                 .WithMany()
                 .HasForeignKey(g => g.ProfileId);
 
+            modelBuilder.Entity<ProductEntity>()
+                .HasOne(p => p.StockLocation)
+                .WithMany()
+                .HasForeignKey(p => p.StockLocationId)
+                .OnDelete(DeleteBehavior.Restrict);
+
 
             AuthSeedData.Seed(modelBuilder);
             FinancialFinancialReleaseTypeSeedData.Seed(modelBuilder);

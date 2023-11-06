@@ -1,11 +1,11 @@
 ﻿using AutoMapper;
 using Domain.Entities.Stock;
 using Domain.Enum;
+using Domain.Interface.Repository.Auth;
 using Domain.Interface.Repository.Common;
 using Domain.Interface.Repository.Product;
 using Domain.Interface.Repository.Stock;
 using Domain.Interface.Service.Stock;
-using Domain.Model.Product;
 using Domain.Model.Stock;
 using Service.Common;
 
@@ -13,28 +13,32 @@ namespace Service.Stock
 {
     public class InventoryAdjustmentService : BaseService<InventoryAdjustmentEntity, InventoryAdjustmentRequest, InventoryAdjustmentResponse>, IInventoryAdjustmentService
     {
-        private IStockLocationRepository _locationRepository;
         private IProductRepository _productRepository;
-        private IStockReleaseRepository _releaseRepository;
-        public InventoryAdjustmentService(IInventoryAdjustmentRepository repository,  IMapper mapper, IUnitOfWork uow, IStockLocationRepository locationRepository, IProductRepository producRepository, IStockReleaseRepository releaseRepository)
+        private IUserRepository _userRepository;
+        private IStockReleaseService _releaseService;
+
+        public InventoryAdjustmentService(IInventoryAdjustmentRepository repository,  IMapper mapper, IUnitOfWork uow, IProductRepository producRepository, IUserRepository userRepository, IStockReleaseService releaseService)
             : base(repository, mapper, uow)
         {
-            _locationRepository = locationRepository;
             _productRepository = producRepository;
-            _releaseRepository = releaseRepository;
+            _userRepository = userRepository;
+            _releaseService = releaseService;
         }
 
         public override async Task<InventoryAdjustmentResponse> Create (InventoryAdjustmentRequest request)
         {
             try
             {
-                var stockLocation = await _locationRepository.Get();
+                var users = await _userRepository.Get();
+                var user = users.Where(x => x.Email == "admin@teste.com").FirstOrDefault();
+
                 var product = await _productRepository.Get(request.ProductUuid);
+
 
                 var adjustmentEntity = new InventoryAdjustmentEntity()
                 {
-                    StockLocation = stockLocation.FirstOrDefault(),
-                    StockLocationId = stockLocation.FirstOrDefault().Id,
+                    StockLocation = product.StockLocation,
+                    StockLocationId = product.StockLocationId,
                     Product = product,
                     ProductId = product.Id,
                     Amount = request.Amount,
@@ -44,12 +48,11 @@ namespace Service.Stock
                     Status = EStockReleaseStatus.RELEASED
 
                 };
-
-                var stockRelease = new StockReleaseEntity() { };
-
+                
 
                 await _repository.Create(adjustmentEntity);
-                
+
+                await _releaseService.StockProcessor(product, adjustmentEntity.Flow, adjustmentEntity.Amount, (int)adjustmentEntity.Id, user);
 
 
                 _uow.Commit();
@@ -61,5 +64,8 @@ namespace Service.Stock
                 return null;
             }
         }
+
+        
     }
 }
+

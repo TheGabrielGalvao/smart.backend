@@ -12,21 +12,21 @@ namespace Domain.Entities.Stock
         public string Title { get; set; }
 
         [Column(TypeName = "decimal(19,9)")]
-        public decimal PreviousQuantity { get; set; }
+        public decimal? PreviousBalance { get; set; } = 0;
 
         [Column(TypeName = "decimal(19,9)")]
         public decimal QuantityReleased { get; set; }
 
         [Column(TypeName = "decimal(19,9)")]
-        public decimal AdjustedQuantity { get; set; }
+        public decimal NextBalance { get; set; } = 0;
 
-        public int? StockReleaseId { get; set; }
+        public long? StockReleaseId { get; set; }
 
         public  EReleaseFlow Flow { get; set; }
 
         public EStockReleaseStatus Status { get; set; }
 
-        public EStockReleaseType StockReleaseTypeId { get; set; }
+        public EStockReleaseType StockReleaseType { get; set; }
 
         public DateTime CreatedAt { get; set; } = DateTime.Now;
         public DateTime UpdatedAt { get; set; } = DateTime.Now;

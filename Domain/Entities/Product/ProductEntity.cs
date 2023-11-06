@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using Domain.Entities.Stock;
+using System.ComponentModel.DataAnnotations.Schema;
 using Util.Enumerator;
 
 namespace Domain.Entities.Product
@@ -10,6 +11,16 @@ namespace Domain.Entities.Product
         public string Description { get; set; }
         public decimal Price { get; set; } = 0.00M;
         public ERegisterStatus? Status { get; set; } = ERegisterStatus.ACTIVE;
+
+        public bool AffectsStock { get; set; }
+
+        [Column(TypeName = "decimal(19,9)")]
+        public decimal? MinimalStock { get; set; }
+
+        public long StockLocationId { get; set; }
+
+        [ForeignKey(nameof(StockLocationId))]
+        public StockLocationEntity StockLocation { get; set; }
 
         public long ProductCategoryId { get; set; }
 

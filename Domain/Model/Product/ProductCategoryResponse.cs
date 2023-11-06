@@ -8,5 +8,6 @@ namespace Domain.Model.Product
         public string Name { get; set; }
         public string Description { get; set; }
         public ERegisterStatus Status { get; set; }
+
     }
 }

@@ -32,7 +32,7 @@ namespace Repository.Product
 
         public async Task<ProductEntity> Get(Guid uuid)
         {
-            var product = await _context.Products.Include(x => x.ProductCategory).FirstOrDefaultAsync(c => c.Uuid == uuid);
+            var product = await _context.Products.Include(x => x.ProductCategory).Include(y => y.StockLocation).FirstOrDefaultAsync(c => c.Uuid == uuid);
             return product;
         }
 

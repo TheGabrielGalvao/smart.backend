@@ -4,6 +4,7 @@ using Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Database.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231104171348_Update_Schema_Stock")]
+    partial class Update_Schema_Stock
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -158,7 +160,7 @@ namespace Database.Migrations
                             Password = "1234",
                             ProfileId = 1L,
                             Status = 1,
-                            Uuid = new Guid("e706f218-97d8-4a20-b4f3-9e3de4c9e576")
+                            Uuid = new Guid("6ff2c236-c89d-4bf6-a8f9-fb66101704b3")
                         });
                 });
 
@@ -232,7 +234,7 @@ namespace Database.Migrations
                             Description = "Perfil de Administrador",
                             Name = "Admnistrador",
                             Status = 1,
-                            Uuid = new Guid("d27f1c71-3470-417c-8f5f-b43e16c85d14")
+                            Uuid = new Guid("07734f1e-54f9-4140-bb1f-cc3ca6064900")
                         });
                 });
 
@@ -436,15 +438,9 @@ namespace Database.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
 
-                    b.Property<bool>("AffectsStock")
-                        .HasColumnType("bit");
-
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<decimal?>("MinimalStock")
-                        .HasColumnType("decimal(19,9)");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -459,17 +455,12 @@ namespace Database.Migrations
                     b.Property<int?>("Status")
                         .HasColumnType("int");
 
-                    b.Property<long>("StockLocationId")
-                        .HasColumnType("bigint");
-
                     b.Property<Guid>("Uuid")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
                     b.HasIndex("ProductCategoryId");
-
-                    b.HasIndex("StockLocationId");
 
                     b.ToTable("Products", "product");
                 });
@@ -749,15 +740,7 @@ namespace Database.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Domain.Entities.Stock.StockLocationEntity", "StockLocation")
-                        .WithMany()
-                        .HasForeignKey("StockLocationId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
                     b.Navigation("ProductCategory");
-
-                    b.Navigation("StockLocation");
                 });
 
             modelBuilder.Entity("Domain.Entities.Stock.InventoryAdjustmentEntity", b =>
