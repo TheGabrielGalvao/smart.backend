@@ -11,13 +11,11 @@ namespace Service.Financial
     public class FinancialReleaseService : IFinancialReleaseService
     {
         public readonly IFinancialReleaseRepository _repository;
-        public readonly IFinancialReleaseTypeRepository _financialReleaseTypeRepository;
         private readonly IMapper _mapper;
         private readonly IUnitOfWork _uow;
-        public FinancialReleaseService(IFinancialReleaseRepository repository, IFinancialReleaseTypeRepository financialReleaseTypeRepository, IMapper mapper, IUnitOfWork uow)
+        public FinancialReleaseService(IFinancialReleaseRepository repository, IMapper mapper, IUnitOfWork uow)
         {
             _repository = repository;
-            _financialReleaseTypeRepository = financialReleaseTypeRepository;
             _mapper = mapper;
             _uow = uow;
         }
@@ -25,15 +23,12 @@ namespace Service.Financial
         {
             try
             {
-                var financialReleaseType = await _financialReleaseTypeRepository.Get(request.FinancialReleaseTypeUuid);
-                var financialRelease = new FinancialRelease
+                var financialRelease = new FinancialReleaseEntity
                 {
                     Title = request.Title,
-                    Value = request.Value,
                     Status = request.Status.GetValueOrDefault(),
-                    Operation = financialReleaseType.Operation,
-                    FinancialReleaseTypeId = financialReleaseType.Id,
-                    FinancialReleaseType = financialReleaseType,
+                    FinancialReleaseType = request.FinancialReleaseType,
+                    ReleasedValue = request.Value,
                     UserId = 1
                 };
 
@@ -77,11 +72,11 @@ namespace Service.Financial
         public async Task<FinancialDashboardResponse> GetDashBoardData()
         {
             var financialReleases = await _repository.Get();
-            var totalExpenseCompleted = financialReleases.Where(x => x.Operation == Domain.Enum.EFinancialOperation.OUTFLOW && x.Status == EFinancialReleaseStatus.COMPLETED).Sum(x => x.Value);
-            var totalRevenueCompleted = financialReleases.Where(x => x.Operation == Domain.Enum.EFinancialOperation.INFLOW && x.Status == EFinancialReleaseStatus.COMPLETED).Sum(x => x.Value);
+            var totalExpenseCompleted = financialReleases.Where(x => x.Flow == EReleaseFlow.OUTFLOW && x.Status == EFinancialReleaseStatus.COMPLETED).Sum(x => x.ReleasedValue);
+            var totalRevenueCompleted = financialReleases.Where(x => x.Flow == EReleaseFlow.INFLOW && x.Status == EFinancialReleaseStatus.COMPLETED).Sum(x => x.ReleasedValue);
             
-            var totalExpensePending = financialReleases.Where(x => x.Operation == Domain.Enum.EFinancialOperation.OUTFLOW && x.Status == EFinancialReleaseStatus.PENDING).Sum(x => x.Value);
-            var totalRevenuePending = financialReleases.Where(x => x.Operation == Domain.Enum.EFinancialOperation.INFLOW && x.Status == EFinancialReleaseStatus.PENDING).Sum(x => x.Value);
+            var totalExpensePending = financialReleases.Where(x => x.Flow == EReleaseFlow.OUTFLOW && x.Status == EFinancialReleaseStatus.PENDING).Sum(x => x.ReleasedValue);
+            var totalRevenuePending = financialReleases.Where(x => x.Flow == EReleaseFlow.INFLOW && x.Status == EFinancialReleaseStatus.PENDING).Sum(x => x.ReleasedValue);
             
             var currentBalance = totalRevenueCompleted - totalExpenseCompleted;
             var expectedBalance = totalRevenuePending - totalExpensePending;

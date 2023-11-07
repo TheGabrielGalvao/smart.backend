@@ -6,7 +6,7 @@ using Util.Enumerartor;
 namespace Domain.Entities.Fiancial
 {
     [Table("FinancialReleaseType", Schema = "financial")]
-    public class FinancialReleaseType : DefaultEntity
+    public class FinancialReleaseTypeEntity : DefaultEntity
     {
         public string Name { get; set; }
         public string Description { get; set; }
@@ -15,6 +15,6 @@ namespace Domain.Entities.Fiancial
         public long? UserId { get; set; }
 
         public User User { get; set; }
-        public ICollection<FinancialRelease> FinancialReleases { get; set; }
+        public ICollection<FinancialReleaseEntity> FinancialReleases { get; set; }
     }
 }

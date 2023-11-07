@@ -4,10 +4,10 @@ namespace Domain.Interface.Repository.Financial
 {
     public interface IFinancialReleaseRepository
     {
-        Task<IEnumerable<FinancialRelease>> Get();
-        Task<FinancialRelease> Get(Guid uuid);
-        Task<FinancialRelease> Create(FinancialRelease user);
-        Task<FinancialRelease> Update(FinancialRelease user);
+        Task<IEnumerable<FinancialReleaseEntity>> Get();
+        Task<FinancialReleaseEntity> Get(Guid uuid);
+        Task<FinancialReleaseEntity> Create(FinancialReleaseEntity user);
+        Task<FinancialReleaseEntity> Update(FinancialReleaseEntity user);
         Task Delete(Guid uuid);
     }
 }

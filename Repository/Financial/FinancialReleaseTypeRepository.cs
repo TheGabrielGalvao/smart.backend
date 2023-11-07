@@ -18,7 +18,7 @@ namespace Repository.Financial
             _context = context;
         }
 
-        public async Task<FinancialReleaseType> Create(FinancialReleaseType transactionType)
+        public async Task<FinancialReleaseTypeEntity> Create(FinancialReleaseTypeEntity transactionType)
         {
             _context.FinancialReleaseTypes.Add(transactionType);
 
@@ -31,18 +31,18 @@ namespace Repository.Financial
             _context.FinancialReleaseTypes.Remove(transactionTypeDelete);
         }
 
-        public async Task<IEnumerable<FinancialReleaseType>> Get()
+        public async Task<IEnumerable<FinancialReleaseTypeEntity>> Get()
         {
             return await _context.FinancialReleaseTypes.ToListAsync();
         }
 
-        public async Task<FinancialReleaseType> Get(Guid uuid)
+        public async Task<FinancialReleaseTypeEntity> Get(Guid uuid)
         {
             var transactionType = await _context.FinancialReleaseTypes.FirstOrDefaultAsync(c => c.Uuid == uuid);
             return transactionType;
         }
 
-        public async Task<FinancialReleaseType> Update(FinancialReleaseType transactionType)
+        public async Task<FinancialReleaseTypeEntity> Update(FinancialReleaseTypeEntity transactionType)
         {
             _context.Entry(transactionType).State = EntityState.Modified;
             return transactionType;

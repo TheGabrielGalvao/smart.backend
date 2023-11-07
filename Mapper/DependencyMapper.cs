@@ -102,14 +102,13 @@ namespace Mapper
                 cfg.CreateMap<Contact, ContactResponse>();
                 cfg.CreateMap<ContactRequest, Contact>();
 
-                cfg.CreateMap<FinancialRelease, FinancialReleaseResponse>()
-                .ForMember(x => x.FinancialReleaseTypeUuid, o => o.MapFrom(src => src.FinancialReleaseType.Uuid))
+                cfg.CreateMap<FinancialReleaseEntity, FinancialReleaseResponse>()
                 .ForMember(x => x.UserUuid, o => o.MapFrom(src => src.User.Uuid))
                 .ForMember(x => x.ContactUuid, o => o.MapFrom(src => src.Contact.Uuid));
-                cfg.CreateMap<FinancialReleaseRequest, FinancialRelease>();
+                cfg.CreateMap<FinancialReleaseRequest, FinancialReleaseEntity>();
 
-                cfg.CreateMap<FinancialReleaseType, FinancialReleaseTypeResponse>();
-                cfg.CreateMap<FinancialReleaseTypeRequest, FinancialReleaseType>();
+                cfg.CreateMap<FinancialReleaseTypeEntity, FinancialReleaseTypeResponse>();
+                cfg.CreateMap<FinancialReleaseTypeRequest, FinancialReleaseTypeEntity>();
 
                 cfg.CreateMap<FinancialReleaseTypeResponse, OptionItemResponse>()
                 .ForMember(x => x.Label, opt => opt.MapFrom(o => o.Name))

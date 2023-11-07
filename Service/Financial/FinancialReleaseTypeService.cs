@@ -22,7 +22,7 @@ namespace Service.Financial
         {
             try
             {
-                var financialRelease = new FinancialReleaseType
+                var financialRelease = new FinancialReleaseTypeEntity
                 {
                     Name = request.Name,
                     Description = request.Description,

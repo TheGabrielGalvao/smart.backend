@@ -15,7 +15,7 @@ namespace Domain.Model.Financial
         public DateTime UpdatedAt { get; set; }
         public EFinancialReleaseStatus Status { get; set; }
         public EFinancialOperation Operation { get; set; }
-        public Guid FinancialReleaseTypeUuid { get; set; }
+        public EFinancialReleaseType FinancialReleaseType { get; set; }
         public Guid UserUuid { get; set; }
         public Guid? ContactUuid { get; set; }
 

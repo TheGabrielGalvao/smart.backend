@@ -2,6 +2,7 @@
 using Domain.Entities;
 using Domain.Entities.Auth;
 using Domain.Entities.Fiancial;
+using Domain.Entities.Financial;
 using Domain.Entities.Product;
 using Domain.Entities.Stock;
 using Microsoft.EntityFrameworkCore;
@@ -23,8 +24,12 @@ namespace Database
 
         public DbSet<Contact> Contacts { get; set; }
 
-        public DbSet<FinancialRelease> FinancialReleases { get; set; }
-        public DbSet<FinancialReleaseType> FinancialReleaseTypes { get; set; }
+        public DbSet<FinancialReleaseEntity> FinancialReleases { get; set; }
+        public DbSet<FinancialReleaseTypeEntity> FinancialReleaseTypes { get; set; }
+        public DbSet<FinancialBalanceEntity> FinancialBalances { get; set; }
+        public DbSet<ManualTransactionEntity> ManualTransactions { get; set; }
+        public DbSet<WalletEntity> Wallets { get; set; }
+
 
         public DbSet<ProductCategory> ProductCategories { get; set; }
         public DbSet<ProductEntity> Products { get; set; }
@@ -102,6 +107,7 @@ namespace Database
             AuthSeedData.Seed(modelBuilder);
             FinancialFinancialReleaseTypeSeedData.Seed(modelBuilder);
             StockLocationSeedData.Seed(modelBuilder);
+            WalletSeedData.Seed(modelBuilder);
         }
     }
 }
