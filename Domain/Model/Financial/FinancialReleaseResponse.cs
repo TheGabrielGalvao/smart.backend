@@ -1,8 +1,6 @@
-﻿using Domain.Entities.Auth;
-using Domain.Entities.Fiancial;
-using Domain.Enum;
+﻿using Domain.Enum;
+using Domain.Model.Auth;
 using Domain.Model.Contact;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Domain.Model.Financial
 {
@@ -16,8 +14,8 @@ namespace Domain.Model.Financial
         public EFinancialReleaseStatus Status { get; set; }
         public EFinancialOperation Operation { get; set; }
         public EFinancialReleaseType FinancialReleaseType { get; set; }
-        public Guid UserUuid { get; set; }
-        public Guid? ContactUuid { get; set; }
+        public UserResponse User { get; set; }
+        public ContactResponse? Contact { get; set; }
 
     }
 }

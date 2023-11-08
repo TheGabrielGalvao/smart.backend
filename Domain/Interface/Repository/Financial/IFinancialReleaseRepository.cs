@@ -1,13 +1,10 @@
 ﻿using Domain.Entities.Fiancial;
+using Domain.Interface.Repository.Common;
 
 namespace Domain.Interface.Repository.Financial
 {
-    public interface IFinancialReleaseRepository
+    public interface IFinancialReleaseRepository : IBaseRepository<FinancialReleaseEntity>
     {
-        Task<IEnumerable<FinancialReleaseEntity>> Get();
-        Task<FinancialReleaseEntity> Get(Guid uuid);
-        Task<FinancialReleaseEntity> Create(FinancialReleaseEntity user);
-        Task<FinancialReleaseEntity> Update(FinancialReleaseEntity user);
-        Task Delete(Guid uuid);
+        
     }
 }

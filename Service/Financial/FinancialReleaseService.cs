@@ -1,74 +1,89 @@
 ﻿using AutoMapper;
+using Domain.Entities.Auth;
 using Domain.Entities.Fiancial;
+using Domain.Entities.Financial;
 using Domain.Enum;
 using Domain.Interface.Repository.Common;
 using Domain.Interface.Repository.Financial;
-using Domain.Interface.Service;
+using Domain.Interface.Service.Financial;
 using Domain.Model.Financial;
+using Service.Common;
 
 namespace Service.Financial
 {
-    public class FinancialReleaseService : IFinancialReleaseService
+    public class FinancialReleaseService : BaseService<FinancialReleaseEntity, FinancialReleaseRequest, FinancialReleaseResponse>, IFinancialReleaseService
     {
-        public readonly IFinancialReleaseRepository _repository;
-        private readonly IMapper _mapper;
-        private readonly IUnitOfWork _uow;
-        public FinancialReleaseService(IFinancialReleaseRepository repository, IMapper mapper, IUnitOfWork uow)
+        private readonly IFinancialBalanceRepository _balanceRepository;
+        public FinancialReleaseService(IFinancialReleaseRepository repository, IFinancialBalanceRepository balanceRepository, IMapper mapper, IUnitOfWork uow) : base(repository, mapper, uow)
         {
-            _repository = repository;
-            _mapper = mapper;
-            _uow = uow;
+            _balanceRepository = balanceRepository;
         }
-        public async Task<FinancialReleaseResponse> Create(FinancialReleaseRequest request)
+
+        public async Task FinancialProcessor(FinancialReleaseDetails details, User user)
         {
             try
             {
-                var financialRelease = new FinancialReleaseEntity
+                var balance = await GetBalanceByWallet((int)details.Wallet?.Id);
+                var currentBalance = balance.Balance;
+                var nextBalance = details.Flow == EReleaseFlow.INFLOW ? currentBalance + details.Value : currentBalance - details.Value;
+
+
+                var financialRelease = new FinancialReleaseEntity()
                 {
-                    Title = request.Title,
-                    Status = request.Status.GetValueOrDefault(),
-                    FinancialReleaseType = request.FinancialReleaseType,
-                    ReleasedValue = request.Value,
-                    UserId = 1
+                    Title = details.Title,
+                    Flow = details.Flow,
+                    ReleasedValue = details.Value,
+                    WalletId = details.Wallet.Id,
+                    Wallet = details.Wallet,
+                    FinancialReleaseType = details.Type,
+                    ContactId = details.Contact?.Id,
+                    Contact = details.Contact,
+                    UserId = user.Id,
+                    User = user,
+                    TransactionCode = details.TransactionCode,
+                    Status = details.Status,
+
                 };
-
-
 
                 await _repository.Create(financialRelease);
 
+                
+
+                if (financialRelease.Status == EFinancialReleaseStatus.COMPLETED)
+                {
+                    balance.Balance = nextBalance;
+                    balance.LastUpdated = DateTime.UtcNow;
+                    balance.WalletId = financialRelease.Wallet.Id;
+                    balance.Wallet = financialRelease.Wallet;
+
+                    if (balance.Id > 0)
+                    {
+                        await _balanceRepository.Update(balance);
+                    }
+
+                    else
+                    {
+                        await _balanceRepository.Create(balance);
+                    }
+                }
+
                 _uow.Commit();
-                return _mapper.Map<FinancialReleaseResponse>(financialRelease);
             }
             catch (Exception ex)
             {
                 _uow.Rollback();
-                return null;
             }
         }
 
-        public async Task Delete(Guid uuid)
+        
+        public async Task<FinancialBalanceEntity> GetBalanceByWallet(int walletId)
         {
-            try
-            {
-                await _repository.Delete(uuid);
-                _uow.Commit();
-            }
-            catch
-            {
-                _uow.Rollback();
-            }
+            var balance = await _balanceRepository.GetBalanceByWallet(walletId);
+
+            return balance;
         }
 
-        public async Task<IEnumerable<FinancialReleaseResponse>> Get()
-        {
-            return _mapper.Map<IEnumerable<FinancialReleaseResponse>>(await _repository.Get());
-        }
-
-        public async Task<FinancialReleaseResponse> Get(Guid uuid)
-        {
-            return _mapper.Map<FinancialReleaseResponse>(await _repository.Get(uuid));
-        }
-
+        
         public async Task<FinancialDashboardResponse> GetDashBoardData()
         {
             var financialReleases = await _repository.Get();
@@ -93,23 +108,6 @@ namespace Service.Financial
             
             return response;
         }
-
-        public async Task<FinancialReleaseResponse> Update(Guid uuid, FinancialReleaseRequest request)
-        {
-            try
-            {
-                var financialRelease = await _repository.Get(uuid);
-
-                await _repository.Update(financialRelease);
-                _uow.Commit();
-
-                return _mapper.Map<FinancialReleaseResponse>(financialRelease);
-            }
-            catch
-            {
-                _uow.Rollback();
-                return null;
-            }
-        }
+        
     }
 }

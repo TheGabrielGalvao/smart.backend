@@ -31,7 +31,7 @@ namespace Domain.Entities.Financial
         public long? ContactId { get; set; }
 
         [ForeignKey(nameof(ContactId))]
-        public Contact? Contact { get; set; }
+        public ContactEntity? Contact { get; set; }
 
         public long WalletId { get; set; }
 

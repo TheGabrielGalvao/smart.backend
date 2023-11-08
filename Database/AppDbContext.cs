@@ -22,7 +22,7 @@ namespace Database
         public DbSet<UserGroup> UserGroups { get; set; }
         public DbSet<User> Users { get; set; }
 
-        public DbSet<Contact> Contacts { get; set; }
+        public DbSet<ContactEntity> Contacts { get; set; }
 
         public DbSet<FinancialReleaseEntity> FinancialReleases { get; set; }
         public DbSet<FinancialReleaseTypeEntity> FinancialReleaseTypes { get; set; }

@@ -2,7 +2,7 @@
 using Domain.Entities.Fiancial;
 using Domain.Interface.Repository.Common;
 using Domain.Interface.Repository.Financial;
-using Domain.Interface.Service;
+using Domain.Interface.Service.Financial;
 using Domain.Model.Financial;
 
 namespace Service.Financial

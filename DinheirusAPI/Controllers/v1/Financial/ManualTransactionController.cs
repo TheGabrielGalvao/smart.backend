@@ -1,4 +1,4 @@
-﻿using Domain.Interface.Service;
+﻿using Domain.Interface.Service.Financial;
 using Domain.Model.Financial;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -8,13 +8,15 @@ namespace DinheirusAPI.Controllers.v1.Financial
     [Authorize]
     [Route("api/v1/[controller]")]
     [ApiController]
-    public class FinancialReleaseController : ControllerBase
+    public class ManualTransactionController : ControllerBase
     {
 
         private readonly IFinancialReleaseService _service;
-        public FinancialReleaseController(IFinancialReleaseService service)
+        private readonly IManualTransactionService _manualTransactionService;
+        public ManualTransactionController(IFinancialReleaseService service, IManualTransactionService manualTransactionService)
         {
             _service = service;
+            _manualTransactionService = manualTransactionService;
         }
         [HttpGet]
         [Authorize]
@@ -32,10 +34,10 @@ namespace DinheirusAPI.Controllers.v1.Financial
 
 
         [HttpPost]
-        public async Task<ActionResult<FinancialReleaseResponse>> PostFinancialRelease([FromBody] FinancialReleaseRequest transaction)
+        public async Task<ActionResult<ManualTransactionResponse>> PostManualTransaction([FromBody] ManualTransactionRequest transaction)
         {
-            var newFinancialRelease = await _service.Create(transaction);
-            return CreatedAtAction(nameof(GetFinancialReleases), new { uuid = newFinancialRelease.Uuid }, newFinancialRelease);
+            var newFinancialRelease = await _manualTransactionService.Create(transaction);
+            return Ok(newFinancialRelease);
         }
 
         [HttpDelete("{uuid}")]

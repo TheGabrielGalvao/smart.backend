@@ -5,7 +5,7 @@ using Util.Enumerator;
 namespace Domain.Entities
 {
     [Table("Contact")]
-    public class Contact : DefaultEntity
+    public class ContactEntity : DefaultEntity
     {
         public string FullName { get; set; } = string.Empty;
         public string? SurName { get; set; }

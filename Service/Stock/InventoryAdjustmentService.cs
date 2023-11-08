@@ -13,9 +13,9 @@ namespace Service.Stock
 {
     public class InventoryAdjustmentService : BaseService<InventoryAdjustmentEntity, InventoryAdjustmentRequest, InventoryAdjustmentResponse>, IInventoryAdjustmentService
     {
-        private IProductRepository _productRepository;
-        private IUserRepository _userRepository;
-        private IStockReleaseService _releaseService;
+        private readonly IProductRepository _productRepository;
+        private readonly IUserRepository _userRepository;
+        private readonly IStockReleaseService _releaseService;
 
         public InventoryAdjustmentService(IInventoryAdjustmentRepository repository,  IMapper mapper, IUnitOfWork uow, IProductRepository producRepository, IUserRepository userRepository, IStockReleaseService releaseService)
             : base(repository, mapper, uow)
@@ -52,7 +52,15 @@ namespace Service.Stock
 
                 await _repository.Create(adjustmentEntity);
 
-                await _releaseService.StockProcessor(product, adjustmentEntity.Flow, adjustmentEntity.Amount, (int)adjustmentEntity.Id, user);
+                var releaseDetails = new StockReleaseDetails {
+                    Type = EStockReleaseType.ADJUST,
+                    Flow = adjustmentEntity.Flow,
+                    Amount = adjustmentEntity.Amount,
+                    Status = adjustmentEntity.Status,
+                    StockReleaseId = (int)adjustmentEntity.Id
+                };
+
+                await _releaseService.StockProcessor(product, releaseDetails, user);
 
 
                 _uow.Commit();

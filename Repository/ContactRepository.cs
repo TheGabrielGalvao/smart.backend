@@ -12,7 +12,7 @@ namespace Repository
         {
             _context = context;
         }
-        public async Task<Contact> Create(Contact contact)
+        public async Task<ContactEntity> Create(ContactEntity contact)
         {
             _context.Contacts.Add(contact);
             
@@ -26,7 +26,7 @@ namespace Repository
 
         }
 
-        public async Task<IEnumerable<Contact>> Get()
+        public async Task<IEnumerable<ContactEntity>> Get()
         {
             try
             {
@@ -36,13 +36,13 @@ namespace Repository
             catch (Exception ex) { return null; }
         }
 
-        public async Task<Contact> Get(Guid uuid)
+        public async Task<ContactEntity> Get(Guid uuid)
         {
             var contact = await _context.Contacts.FirstOrDefaultAsync(c => c.Uuid == uuid);
             return contact;
         }
 
-        public async Task<Contact> Update(Contact contact)
+        public async Task<ContactEntity> Update(ContactEntity contact)
         {
             _context.Entry(contact).State = EntityState.Modified;
             return contact;

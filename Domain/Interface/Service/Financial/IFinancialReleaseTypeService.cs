@@ -1,6 +1,6 @@
 ﻿using Domain.Model.Financial;
 
-namespace Domain.Interface.Service
+namespace Domain.Interface.Service.Financial
 {
     public interface IFinancialReleaseTypeService
     {

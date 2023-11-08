@@ -2,6 +2,7 @@
 using Domain.Entities;
 using Domain.Entities.Auth;
 using Domain.Entities.Fiancial;
+using Domain.Entities.Financial;
 using Domain.Entities.Product;
 using Domain.Entities.Stock;
 using Domain.Interface.Repository;
@@ -11,6 +12,7 @@ using Domain.Interface.Repository.Financial;
 using Domain.Interface.Repository.Product;
 using Domain.Interface.Repository.Stock;
 using Domain.Interface.Service;
+using Domain.Interface.Service.Financial;
 using Domain.Interface.Service.Product;
 using Domain.Interface.Service.Stock;
 using Domain.Model.Auth;
@@ -44,16 +46,20 @@ namespace Mapper
             services.AddScoped<IContactRepository, ContactRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IUserProfileRepository, UserProfileRepository>();
-            services.AddScoped<IFinancialReleaseRepository, FinancialReleaseRepository>();
-            services.AddScoped<IFinancialReleaseTypeRepository, FinancialReleaseTypeRepository>();
+            
             services.AddScoped<IProductCategoryRepository, ProductCategoryRepository>();
             services.AddScoped<IProductRepository, ProductRepository>();
 
             services.AddScoped<IInventoryAdjustmentRepository, InventoryAdjustmentRepository>();
-
             services.AddScoped<IStockLocationRepository, StockLocationRepository>();
             services.AddScoped<IStockReleaseRepository, StockReleaseRepository>();
             services.AddScoped<IStockBalanceRepository, StockBalanceRepository>();
+
+            services.AddScoped<IFinancialReleaseRepository, FinancialReleaseRepository>();
+            services.AddScoped<IFinancialReleaseTypeRepository, FinancialReleaseTypeRepository>();
+            services.AddScoped<IFinancialBalanceRepository, FinancialBalanceRepository>();
+            services.AddScoped<IManualTransactionRepository, ManualTransactionRepository>();
+            services.AddScoped<IWalletRepository, WalletRepository>();
 
 
             services.AddScoped<IAuthRepository>(provider =>
@@ -73,12 +79,15 @@ namespace Mapper
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<IAuthService, AuthService>();
             services.AddTransient<IUnitOfWork, UnityOfWork>();
-            services.AddTransient<IFinancialReleaseService, FinancialReleaseService>();
-            services.AddTransient<IFinancialReleaseTypeService, FinancialReleaseTypeService>();
             services.AddTransient<IProductCategoryService, ProductCategoryService>();
             services.AddTransient<IProductService, ProductService>();
             services.AddTransient<IInventoryAdjustmentService, InventoryAdjustmentService>();
             services.AddTransient<IStockReleaseService, StockReleaseService>();
+
+            services.AddTransient<IFinancialReleaseService, FinancialReleaseService>();
+            services.AddTransient<IFinancialReleaseTypeService, FinancialReleaseTypeService>();
+            services.AddTransient<IManualTransactionService, ManualTransactionService>();
+            
 
             #endregion
         }
@@ -99,17 +108,19 @@ namespace Mapper
                 .ForMember(x => x.ProfileUuid, opt => opt.MapFrom(o => o.Profile.Uuid));
                 cfg.CreateMap<UserRequest, User>();
                 
-                cfg.CreateMap<Contact, ContactResponse>();
-                cfg.CreateMap<ContactRequest, Contact>();
+                cfg.CreateMap<ContactEntity, ContactResponse>();
+                cfg.CreateMap<ContactRequest, ContactEntity>();
 
-                cfg.CreateMap<FinancialReleaseEntity, FinancialReleaseResponse>()
-                .ForMember(x => x.UserUuid, o => o.MapFrom(src => src.User.Uuid))
-                .ForMember(x => x.ContactUuid, o => o.MapFrom(src => src.Contact.Uuid));
+                cfg.CreateMap<FinancialReleaseEntity, FinancialReleaseResponse>();
                 cfg.CreateMap<FinancialReleaseRequest, FinancialReleaseEntity>();
 
                 cfg.CreateMap<FinancialReleaseTypeEntity, FinancialReleaseTypeResponse>();
                 cfg.CreateMap<FinancialReleaseTypeRequest, FinancialReleaseTypeEntity>();
 
+                cfg.CreateMap<ManualTransactionEntity, ManualTransactionResponse>();
+                cfg.CreateMap<ManualTransactionRequest, ManualTransactionEntity>();
+
+                
                 cfg.CreateMap<FinancialReleaseTypeResponse, OptionItemResponse>()
                 .ForMember(x => x.Label, opt => opt.MapFrom(o => o.Name))
                 .ForMember(x => x.Value, opt => opt.MapFrom(o => o.Uuid));

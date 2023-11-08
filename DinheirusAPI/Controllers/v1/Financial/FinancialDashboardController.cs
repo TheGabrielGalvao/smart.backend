@@ -1,4 +1,4 @@
-﻿using Domain.Interface.Service;
+﻿using Domain.Interface.Service.Financial;
 using Domain.Model.Financial;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

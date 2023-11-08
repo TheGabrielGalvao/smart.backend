@@ -22,7 +22,7 @@ namespace Service
         {
             try
             {
-                var contact = _mapper.Map<Contact>(request);
+                var contact = _mapper.Map<ContactEntity>(request);
                 await _repository.Create(contact);
 
                 _uow.Commit();

@@ -4,12 +4,12 @@ namespace Domain.Interface.Repository
 {
     public interface IContactRepository
     {
-        Task<IEnumerable<Contact>> Get();
-        Task<Contact> Get(Guid uuid);
+        Task<IEnumerable<ContactEntity>> Get();
+        Task<ContactEntity> Get(Guid uuid);
 
-        Task<Contact> Create(Contact Contact);
+        Task<ContactEntity> Create(ContactEntity Contact);
 
-        Task<Contact> Update(Contact Contact);
+        Task<ContactEntity> Update(ContactEntity Contact);
 
         Task Delete(Guid uuid);
     }

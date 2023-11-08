@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Domain.Interface.Service;
+using Domain.Interface.Service.Financial;
 using Domain.Model.Common;
 using Domain.Model.Financial;
 using Microsoft.AspNetCore.Authorization;
